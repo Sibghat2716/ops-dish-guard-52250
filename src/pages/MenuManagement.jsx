@@ -8,15 +8,7 @@ import CategoriesManagement from "@/components/CategoriesManagement";
 
 import { useToast } from "@/hooks/use-toast";
 
-interface MenuManagementProps {
-  selectedStore: string;
-  storeChannels: {
-    delivery: boolean;
-    takeaway: boolean;
-  };
-}
-
-const MenuManagement = ({ selectedStore, storeChannels }: MenuManagementProps) => {
+const MenuManagement = ({ selectedStore, storeChannels }) => {
   const { toast } = useToast();
   const [hasChanges, setHasChanges] = useState(false);
 

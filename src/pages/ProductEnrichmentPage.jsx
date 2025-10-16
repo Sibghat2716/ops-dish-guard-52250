@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const ProductEnrichmentPage = () => {
   const { toast } = useToast();
   const { addChange } = useDeployment();
-  const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   const handleSaveChanges = () => {

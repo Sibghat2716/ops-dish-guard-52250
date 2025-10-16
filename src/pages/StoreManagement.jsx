@@ -19,7 +19,7 @@ const StoreManagement = () => {
   
   const storeChannels = getStoreChannels(selectedStore);
   
-  const handleStoreChannelChange = (channels: { delivery: boolean; takeaway: boolean; curbside: boolean }) => {
+  const handleStoreChannelChange = (channels) => {
     updateStoreChannels(selectedStore, channels);
     setHasChanges(true);
   };

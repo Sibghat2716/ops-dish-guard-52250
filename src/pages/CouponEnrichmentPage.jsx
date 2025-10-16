@@ -9,7 +9,7 @@ import CouponEnrichmentForm from "@/components/CouponEnrichmentForm";
 const CouponEnrichmentPage = () => {
   const { toast } = useToast();
   const { addChange } = useDeployment();
-  const [selectedCoupon, setSelectedCoupon] = useState<string | null>(null);
+  const [selectedCoupon, setSelectedCoupon] = useState(null);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   const handleSaveChanges = () => {

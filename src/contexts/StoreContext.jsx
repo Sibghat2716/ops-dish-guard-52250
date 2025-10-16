@@ -1,28 +1,9 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState } from "react";
 
-interface StoreChannels {
-  delivery: boolean;
-  takeaway: boolean;
-  curbside: boolean;
-  deliveryTemporary?: boolean;
-  takeawayTemporary?: boolean;
-  curbsideTemporary?: boolean;
-}
-
-interface StoreData {
-  [storeId: string]: StoreChannels;
-}
-
-interface StoreContextType {
-  storeChannels: StoreData;
-  updateStoreChannels: (storeId: string, channels: StoreChannels) => void;
-  getStoreChannels: (storeId: string) => StoreChannels;
-}
-
-const StoreContext = createContext<StoreContextType | undefined>(undefined);
+const StoreContext = createContext(undefined);
 
 // Initialize with default values for all stores
-const initialStoreData: StoreData = {
+const initialStoreData = {
   pavilion: { delivery: true, takeaway: true, curbside: true },
   midvalley: { delivery: true, takeaway: true, curbside: true },
   "1utama": { delivery: true, takeaway: true, curbside: true },
@@ -50,17 +31,17 @@ const initialStoreData: StoreData = {
   tamarind: { delivery: false, takeaway: true, curbside: true },
 };
 
-export const StoreProvider = ({ children }: { children: ReactNode }) => {
-  const [storeChannels, setStoreChannels] = useState<StoreData>(initialStoreData);
+export const StoreProvider = ({ children }) => {
+  const [storeChannels, setStoreChannels] = useState(initialStoreData);
 
-  const updateStoreChannels = (storeId: string, channels: StoreChannels) => {
+  const updateStoreChannels = (storeId, channels) => {
     setStoreChannels(prev => ({
       ...prev,
       [storeId]: channels
     }));
   };
 
-  const getStoreChannels = (storeId: string): StoreChannels => {
+  const getStoreChannels = (storeId) => {
     return storeChannels[storeId] || { delivery: true, takeaway: true, curbside: true };
   };
 

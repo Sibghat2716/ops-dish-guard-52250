@@ -1,13 +1,8 @@
 import { useState, useMemo } from "react";
 
-export interface PaginationState {
-  currentPage: number;
-  pageSize: number;
-}
+export const PAGE_SIZE_OPTIONS = [10, 20, 50, 100];
 
-export const PAGE_SIZE_OPTIONS = [10, 20, 50, 100] as const;
-
-export function usePagination<T>(items: T[], initialPageSize: number = 10) {
+export function usePagination(items, initialPageSize = 10) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(initialPageSize);
 
@@ -19,7 +14,7 @@ export function usePagination<T>(items: T[], initialPageSize: number = 10) {
 
   const totalPages = Math.ceil(items.length / pageSize);
 
-  const goToPage = (page: number) => {
+  const goToPage = (page) => {
     setCurrentPage(Math.max(1, Math.min(page, totalPages)));
   };
 
@@ -35,7 +30,7 @@ export function usePagination<T>(items: T[], initialPageSize: number = 10) {
     }
   };
 
-  const changePageSize = (newSize: number) => {
+  const changePageSize = (newSize) => {
     setPageSize(newSize);
     setCurrentPage(1); // Reset to first page when changing page size
   };

@@ -7,22 +7,17 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useToast } from "@/hooks/use-toast";
 import PageHeader from "@/components/PageHeader";
 
-interface PrepTimeRange {
-  itemCount: string;
-  timeTake: string;
-}
-
 const PrepTimeManagement = () => {
   const { toast } = useToast();
   const [hasChanges, setHasChanges] = useState(false);
-  const [prepTimes, setPrepTimes] = useState<PrepTimeRange[]>([
+  const [prepTimes, setPrepTimes] = useState([
     { itemCount: "1 to 3", timeTake: "" },
     { itemCount: "3 to 5", timeTake: "" },
     { itemCount: "5 to 8", timeTake: "" },
     { itemCount: ">10", timeTake: "" },
   ]);
 
-  const handleTimeChange = (index: number, value: string) => {
+  const handleTimeChange = (index, value) => {
     const newPrepTimes = [...prepTimes];
     newPrepTimes[index].timeTake = value;
     setPrepTimes(newPrepTimes);
