@@ -9,33 +9,20 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Upload, X, Image as ImageIcon, Video, Percent } from "lucide-react";
 
-interface CouponEnrichmentFormProps {
-  couponId: string;
-  onHasChanges?: (hasChanges: boolean) => void;
-  onAddChange?: (entry: { type: "coupon"; action: "created" | "updated" | "deleted"; itemName: string; description: string }) => void;
-}
-
-interface MediaItem {
-  id: string;
-  type: 'image' | 'video';
-  url: string;
-  name: string;
-}
-
-const CouponEnrichmentForm = ({ couponId, onHasChanges, onAddChange }: CouponEnrichmentFormProps) => {
+const CouponEnrichmentForm = ({ couponId, onHasChanges, onAddChange }) => {
   const [formData, setFormData] = useState({
     code: "WELCOME20",
     title: "Welcome Discount",
     shortDescription: "Get 20% off on your first order",
     longDescription: "Welcome to our restaurant! As a token of our appreciation, enjoy 20% off your first order. This offer is valid for both delivery and takeaway orders. Simply apply the code WELCOME20 at checkout. Terms and conditions apply.",
-    discountType: "percentage" as "percentage" | "fixed",
+    discountType: "percentage",
     discountValue: 20,
     validFrom: "2024-01-01",
     validUntil: "2024-12-31",
     termsAndConditions: "- Valid for first-time customers only\n- Cannot be combined with other offers\n- Minimum order value: RM 50\n- Valid for all menu items except combos",
   });
 
-  const [media, setMedia] = useState<MediaItem[]>([
+  const [media, setMedia] = useState([
     { id: "1", type: "image", url: "/placeholder.svg", name: "coupon-banner.jpg" },
   ]);
 
@@ -43,12 +30,12 @@ const CouponEnrichmentForm = ({ couponId, onHasChanges, onAddChange }: CouponEnr
     onHasChanges?.(false);
   }, [couponId]);
 
-  const handleChange = (field: string, value: any) => {
+  const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     onHasChanges?.(true);
   };
 
-  const handleRemoveMedia = (mediaId: string) => {
+  const handleRemoveMedia = (mediaId) => {
     setMedia(media.filter(m => m.id !== mediaId));
     onHasChanges?.(true);
   };

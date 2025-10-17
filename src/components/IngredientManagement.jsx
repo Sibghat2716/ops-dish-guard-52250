@@ -10,18 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { usePagination } from "@/hooks/usePagination";
 import { PaginationControls } from "@/components/PaginationControls";
 
-interface Ingredient {
-  id: string;
-  name: string;
-  category: string;
-  available: boolean;
-  deliveryAvailable: boolean;
-  takeawayAvailable: boolean;
-  impactedRecipes: string[];
-  impactedProducts: string[];
-}
-
-const mockIngredients: Ingredient[] = [
+const mockIngredients = [
   {
     id: "1",
     name: "Fresh Mozzarella",
@@ -74,21 +63,13 @@ const mockIngredients: Ingredient[] = [
   },
 ];
 
-interface IngredientManagementProps {
-  storeChannels: {
-    delivery: boolean;
-    takeaway: boolean;
-  };
-  onHasChanges: (hasChanges: boolean) => void;
-}
-
-const IngredientManagement = ({ storeChannels, onHasChanges }: IngredientManagementProps) => {
-  const [ingredients, setIngredients] = useState<Ingredient[]>(mockIngredients);
+const IngredientManagement = ({ storeChannels, onHasChanges }) => {
+  const [ingredients, setIngredients] = useState(mockIngredients);
   const [searchQuery, setSearchQuery] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState<string>("all");
-  const [statusFilter, setStatusFilter] = useState<"all" | "available" | "unavailable">("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [showImpactPreview, setShowImpactPreview] = useState(false);
-  const [selectedIngredient, setSelectedIngredient] = useState<Ingredient | null>(null);
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
   const [impactPreviewPage, setImpactPreviewPage] = useState(1);
 
   const filteredIngredients = ingredients.filter(ingredient => {
@@ -114,7 +95,7 @@ const IngredientManagement = ({ storeChannels, onHasChanges }: IngredientManagem
     hasPreviousPage,
   } = usePagination(filteredIngredients);
 
-  const updateIngredientMasterAvailability = (ingredientId: string, available: boolean) => {
+  const updateIngredientMasterAvailability = (ingredientId, available) => {
     setIngredients(ingredients.map(ingredient => 
       ingredient.id === ingredientId 
         ? { 
@@ -128,7 +109,7 @@ const IngredientManagement = ({ storeChannels, onHasChanges }: IngredientManagem
     onHasChanges(true);
   };
 
-  const updateIngredientChannelAvailability = (ingredientId: string, channel: 'delivery' | 'takeaway', available: boolean) => {
+  const updateIngredientChannelAvailability = (ingredientId, channel, available) => {
     setIngredients(ingredients.map(ingredient => 
       ingredient.id === ingredientId 
         ? { 
@@ -143,7 +124,7 @@ const IngredientManagement = ({ storeChannels, onHasChanges }: IngredientManagem
     onHasChanges(true);
   };
 
-  const updateIngredientAvailability = (ingredientId: string, available: boolean) => {
+  const updateIngredientAvailability = (ingredientId, available) => {
     const ingredient = ingredients.find(ing => ing.id === ingredientId);
     if (ingredient && !available && ingredient.impactedProducts.length > 0) {
       setSelectedIngredient({ ...ingredient, available });
@@ -173,7 +154,7 @@ const IngredientManagement = ({ storeChannels, onHasChanges }: IngredientManagem
     setImpactPreviewPage(1);
   };
 
-  const toggleBulkAvailability = (available: boolean) => {
+  const toggleBulkAvailability = (available) => {
     setIngredients(ingredients.map(ingredient => ({
       ...ingredient,
       available,
@@ -189,7 +170,7 @@ const IngredientManagement = ({ storeChannels, onHasChanges }: IngredientManagem
       if (!acc.includes(product)) acc.push(product);
     });
     return acc;
-  }, [] as string[]);
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -225,7 +206,7 @@ const IngredientManagement = ({ storeChannels, onHasChanges }: IngredientManagem
               </SelectContent>
             </Select>
 
-            <Select value={statusFilter} onValueChange={(value: "all" | "available" | "unavailable") => setStatusFilter(value)}>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="w-[160px]">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>

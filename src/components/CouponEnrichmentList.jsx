@@ -8,19 +8,7 @@ import { cn } from "@/lib/utils";
 import { usePagination } from "@/hooks/usePagination";
 import { PaginationControls } from "@/components/PaginationControls";
 
-interface Coupon {
-  id: string;
-  code: string;
-  title: string;
-  discountType: "percentage" | "fixed";
-  discountValue: number;
-  validFrom: string;
-  validUntil: string;
-  active: boolean;
-  enriched: boolean;
-}
-
-const mockCoupons: Coupon[] = [
+const mockCoupons = [
   {
     id: "1",
     code: "WELCOME20",
@@ -155,12 +143,7 @@ const mockCoupons: Coupon[] = [
   },
 ];
 
-interface CouponEnrichmentListProps {
-  onSelectCoupon: (couponId: string) => void;
-  selectedCouponId: string | null;
-}
-
-const CouponEnrichmentList = ({ onSelectCoupon, selectedCouponId }: CouponEnrichmentListProps) => {
+const CouponEnrichmentList = ({ onSelectCoupon, selectedCouponId }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredCoupons = mockCoupons.filter(coupon =>

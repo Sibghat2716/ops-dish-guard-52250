@@ -10,19 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { usePagination } from "@/hooks/usePagination";
 import { PaginationControls } from "@/components/PaginationControls";
 
-interface Category {
-  id: string;
-  name: string;
-  subCategories: SubCategory[];
-}
-
-interface SubCategory {
-  id: string;
-  name: string;
-  itemCount: number;
-}
-
-const mockCategories: Category[] = [
+const mockCategories = [
   {
     id: "1",
     name: "Pizza",
@@ -50,15 +38,11 @@ const mockCategories: Category[] = [
   }
 ];
 
-interface CategoriesManagementProps {
-  onHasChanges: (hasChanges: boolean) => void;
-}
-
-const CategoriesManagement = ({ onHasChanges }: CategoriesManagementProps) => {
-  const [categories, setCategories] = useState<Category[]>(mockCategories);
+const CategoriesManagement = ({ onHasChanges }) => {
+  const [categories, setCategories] = useState(mockCategories);
   const [isAddingCategory, setIsAddingCategory] = useState(false);
   const [isAddingSubCategory, setIsAddingSubCategory] = useState(false);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newSubCategoryName, setNewSubCategoryName] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -85,7 +69,7 @@ const CategoriesManagement = ({ onHasChanges }: CategoriesManagementProps) => {
   const handleAddCategory = () => {
     if (!newCategoryName.trim()) return;
     
-    const newCategory: Category = {
+    const newCategory = {
       id: Date.now().toString(),
       name: newCategoryName,
       subCategories: []
@@ -100,7 +84,7 @@ const CategoriesManagement = ({ onHasChanges }: CategoriesManagementProps) => {
   const handleAddSubCategory = () => {
     if (!newSubCategoryName.trim() || !selectedCategoryId) return;
     
-    const newSubCategory: SubCategory = {
+    const newSubCategory = {
       id: `${selectedCategoryId}-${Date.now()}`,
       name: newSubCategoryName,
       itemCount: 0
@@ -118,12 +102,12 @@ const CategoriesManagement = ({ onHasChanges }: CategoriesManagementProps) => {
     onHasChanges(true);
   };
 
-  const handleDeleteCategory = (categoryId: string) => {
+  const handleDeleteCategory = (categoryId) => {
     setCategories(categories.filter(cat => cat.id !== categoryId));
     onHasChanges(true);
   };
 
-  const handleDeleteSubCategory = (categoryId: string, subCategoryId: string) => {
+  const handleDeleteSubCategory = (categoryId, subCategoryId) => {
     setCategories(categories.map(cat =>
       cat.id === categoryId
         ? { ...cat, subCategories: cat.subCategories.filter(sub => sub.id !== subCategoryId) }

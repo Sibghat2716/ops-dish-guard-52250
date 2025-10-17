@@ -16,19 +16,8 @@ import {
 import { usePagination } from "@/hooks/usePagination";
 import { PaginationControls } from "@/components/PaginationControls";
 
-interface IconIdentifier {
-  id: string;
-  name: string;
-  icon: string;
-}
-
-interface IconIdentifierManagementProps {
-  onHasChanges?: (hasChanges: boolean) => void;
-  onAddChange?: (entry: { type: "identifier"; action: "created" | "updated" | "deleted"; itemName: string; description: string }) => void;
-}
-
-const IconIdentifierManagement = ({ onHasChanges, onAddChange }: IconIdentifierManagementProps) => {
-  const [identifiers, setIdentifiers] = useState<IconIdentifier[]>([
+const IconIdentifierManagement = ({ onHasChanges, onAddChange }) => {
+  const [identifiers, setIdentifiers] = useState([
     { id: "1", name: "Beef", icon: "🥩" },
     { id: "2", name: "Chicken", icon: "🍗" },
     { id: "3", name: "Spicy", icon: "🌶️" },
@@ -40,7 +29,7 @@ const IconIdentifierManagement = ({ onHasChanges, onAddChange }: IconIdentifierM
   ]);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({ name: "", icon: "" });
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -60,7 +49,7 @@ const IconIdentifierManagement = ({ onHasChanges, onAddChange }: IconIdentifierM
     hasPreviousPage,
   } = usePagination(filteredIdentifiers);
 
-  const handleOpenDialog = (identifier?: IconIdentifier) => {
+  const handleOpenDialog = (identifier) => {
     if (identifier) {
       setEditingId(identifier.id);
       setFormData({ name: identifier.name, icon: identifier.icon });
@@ -103,7 +92,7 @@ const IconIdentifierManagement = ({ onHasChanges, onAddChange }: IconIdentifierM
     setFormData({ name: "", icon: "" });
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id) => {
     const identifier = identifiers.find(item => item.id === id);
     setIdentifiers(identifiers.filter(item => item.id !== id));
     onHasChanges?.(true);

@@ -13,32 +13,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Rocket, Package, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-export interface ChangeLogEntry {
-  id: string;
-  type: "product" | "recipe" | "identifier" | "ingredient";
-  action: "created" | "updated" | "deleted";
-  itemName: string;
-  description: string;
-  timestamp: Date;
-}
-
-interface DeploymentDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  changes: ChangeLogEntry[];
-  onDeploy: (environment: "sandbox" | "production") => void;
-}
-
 const DeploymentDialog = ({
   open,
   onOpenChange,
   changes,
   onDeploy,
-}: DeploymentDialogProps) => {
+}) => {
   const { toast } = useToast();
-  const [selectedEnvironment, setSelectedEnvironment] = useState<
-    "sandbox" | "production" | null
-  >(null);
+  const [selectedEnvironment, setSelectedEnvironment] = useState(null);
   const [isDeploying, setIsDeploying] = useState(false);
 
   const handleDeploy = async () => {
@@ -67,7 +49,7 @@ const DeploymentDialog = ({
     });
   };
 
-  const getActionColor = (action: string) => {
+  const getActionColor = (action) => {
     switch (action) {
       case "created":
         return "bg-green-500/10 text-green-700 dark:text-green-400";
@@ -80,7 +62,7 @@ const DeploymentDialog = ({
     }
   };
 
-  const getTypeLabel = (type: string) => {
+  const getTypeLabel = (type) => {
     switch (type) {
       case "product":
         return "Product";
